@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universo Invencible: Explorador Espacial 360</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: black; }
+        #universo-canvas { display: block; }
+
+        /* --- Panel de Control de Velocidad --- */
+        #time-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            font-family: sans-serif;
+            background: rgba(0,0,0,0.8);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #00aaff;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.2);
+        }
+        .btn-ctrl {
+            background: #222;
+            color: white;
+            border: 1px solid #00aaff;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-ctrl:hover { background: #00aaff; color: black; }
+        #btn-pausa { background: #00aaff; color: black; min-width: 100px; }
+
+        /* --- Menú de Navegación (Nuevo) --- */
+        #navigation-menu {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 101;
+            font-family: sans-serif;
+        }
+        #select-destino {
+            width: 220px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #00aaff;
+            border: 1px solid #00aaff;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- Panel de Información --- */
+        #info-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 280px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 20px;
+            border: 1px solid #00aaff;
+            border-radius: 15px;
+            font-family: sans-serif;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
+        }
+
+        #planeta-nombre { margin: 0 0 10px 0; color: #00aaff; text-transform: uppercase; }
+        #planeta-descripcion { font-size: 14px; color: #ccc; line-height: 1.4; }
+        .stats { margin-top: 15px; padding: 0; list-style: none; border-top: 1px solid #333; padding-top: 10px; }
+        .stats li { font-size: 13px; margin-bottom: 5px; }
+        .stats strong { color: #00aaff; }
+
+        @media (max-width: 600px) {
+            #info-panel { width: 160px; font-size: 11px; }
+            #navigation-menu { bottom: 10px; left: 10px; transform: scale(0.9); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="universo-canvas"></canvas>
+
+    <div id="time-controls">
+        <div style="text-align: center; margin-bottom: 8px; font-size: 11px; color: #00aaff; letter-spacing: 1px; font-weight: bold;">SISTEMA DE TIEMPO</div>
+        <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
+            <button id="btn-menos" class="btn-ctrl">-</button>
+            <button id="btn-pausa" class="btn-ctrl">PAUSA</button>
+            <button id="btn-mas" class="btn-ctrl">+</button>
+        </div>
+        <div style="margin-top: 10px; text-align: center; font-size: 13px;">
+            Velocidad: <span id="vel-display" style="color: #00aaff; font-weight: bold;">1.0x</span>
+        </div>
+    </div>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <div id="navigation-menu">
+        <select id="select-destino">
+            <option value="">— VIAJAR A... —</option>
+            <option value="SOL">SOL</option>
+            <option value="MERCURIO">MERCURIO</option>
+            <option value="VENUS">VENUS</option>
+            <option value="TIERRA">TIERRA</option>
+            <option value="MARTE">MARTE</option>
+            <option value="JÚPITER">JÚPITER</option>
+            <option value="SATURNO">SATURNO</option>
+            <option value="URANO">URANO</option>
+            <option value="NEPTUNO">NEPTUNO</option>
+            <option value="CINTURÓN DE ASTEROIDES">CINTURÓN DE ASTEROIDES</option>
+            <option value="CINTURÓN DE KUIPER">CINTURÓN DE KUIPER</option>
+            <option value="COMETA">COMETA</option>
+        </select>
+    </div>
+
+    <div id="info-panel">
+        <h2 id="planeta-nombre">Nombre</h2>
+        <p id="planeta-descripcion">Descripción...</p>
+        <ul class="stats">
+            <li><strong>Distancia:</strong> <span id="planeta-distancia">0</span></li>
+            <li><strong>Velocidad:</strong> <span id="planeta-velocidad">0</span></li>
+        </ul>
+    </div>
+
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.156.1/build/three.module.js",
+            "three/examples/jsm/controls/OrbitControls": "https://unpkg.com/three@0.156.1/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
