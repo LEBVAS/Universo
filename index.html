@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Espacial </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- PANTALLA DE CARGA -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="space-background"></div>
+        
+        <div class="loading-container">
+            <!-- Logo superior -->
+            <div class="loader-header">
+                <div class="loader-brand">
+                    <h1 class="loader-brand-main">COSMOS</h1>
+                    <p class="loader-brand-sub">EXPLORADOR</p>
+                </div>
+            </div>
+            
+            <!-- Mensaje principal -->
+            <p class="loader-message">¿Preparado para explorar los misterios infinitos del cosmos?</p>
+            
+            <!-- Círculo de carga animado -->
+            <div class="loader-circle-container">
+                <div class="loader-circle-outer"></div>
+                <div class="loader-circle-middle"></div>
+                <div class="loader-circle-inner"></div>
+                
+                <!-- Contenido del círculo (loading) -->
+                <div class="loader-circle-content" id="loader-loading">
+                    <p class="loader-main-text">CARGANDO...</p>
+                    <p class="loader-sub-text">EL UNIVERSO</p>
+                </div>
+                
+                <!-- Botón dentro del círculo (aparece después) -->
+                <button id="btn-enter-universe" class="btn-enter-circle">ENTRAR</button>
+            </div>
+            
+            <!-- Elementos decorativos -->
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+        </div>
+    </div>
+
+    <canvas id="universo-canvas"></canvas>
+
+    <button id="menu-toggle" class="menu-icon">
+        <div></div>
+        <div></div>
+        <div></div>
+    </button>
+
+    <div id="side-menu" class="sidebar">
+        <button id="menu-close" class="close-btn">&times;</button>
+        
+        <div class="menu-section">
+            <h3>SISTEMA DE TIEMPO</h3>
+            <div class="side-controls">
+                <button id="btn-menos" class="btn-ctrl">-</button>
+                <button id="btn-pausa" class="btn-ctrl">PAUSA</button>
+                <button id="btn-mas" class="btn-ctrl">+</button>
+            </div>
+            <p class="vel-text">Velocidad: <span id="vel-display">1.0x</span></p>
+        </div>
+
+        <div class="menu-section">
+            <h3>NAVEGACIÓN</h3>
+            <label class="menu-label">PLANETAS</label>
+            <select id="sel-planetas" class="menu-select">
+                <option value="">— Seleccionar —</option>
+                <option value="MERCURIO">MERCURIO</option>
+                <option value="VENUS">VENUS</option>
+                <option value="TIERRA">TIERRA</option>
+                <option value="MARTE">MARTE</option>
+                <option value="JÚPITER">JÚPITER</option>
+                <option value="SATURNO">SATURNO</option>
+                <option value="URANO">URANO</option>
+                <option value="NEPTUNO">NEPTUNO</option>
+            </select>
+
+            <label class="menu-label">CINTURONES</label>
+            <select id="sel-cinturones" class="menu-select">
+                <option value="">— Seleccionar —</option>
+                <option value="CINTURÓN DE ASTEROIDES">CINTURÓN DE ASTEROIDES</option>
+                <option value="CINTURÓN DE KUIPER">CINTURÓN DE KUIPER</option>
+            </select>
+
+
+
+
+            <label class="menu-label">CONSTELACIONES</label>
+            <select id="sel-constelaciones" class="menu-select">
+                <option value="">— Seleccionar —</option>
+                <option value="ARIES">ARIES</option>
+                <option value="TAURO">TAURO</option>
+                <option value="GÉMINIS">GÉMINIS</option>
+                <option value="CÁNCER">CÁNCER</option>
+                <option value="LEO">LEO</option>
+                <option value="VIRGO">VIRGO</option>
+                <option value="LIBRA">LIBRA</option>
+                <option value="ESCORPIO">ESCORPIO</option>
+                <option value="SAGITARIO">SAGITARIO</option>
+                <option value="CAPRICORNIO">CAPRICORNIO</option>
+                <option value="ACUARIO">ACUARIO</option>
+                <option value="PISCIS">PISCIS</option>
+            </select>
+
+            <label class="menu-label">COMETAS</label>
+            <select id="sel-cometas" class="menu-select">
+                <option value="">— Seleccionar —</option>
+                <option value="COMETA 1">COMETA 1</option>
+                <option value="COMETA 2">COMETA 2</option>
+                <option value="COMETA 3">COMETA 3</option>
+                <option value="COMETA 4">COMETA 4</option>
+                <option value="COMETA 5">COMETA 5</option>
+            </select>
+
+
+            <button id="btn-sol-home" class="btn-ctrl" style="width: 100%; margin-top: 20px;">VOLVER AL SOL</button>
+            <button id="btn-ver-normal" class="btn-ctrl" style="width: 100%; margin-top: 12px;">VER VISIÓN NORMAL</button>
+        </div>
+
+
+
+        <!-- Nuevo: botón rápido para volver al universo sin tocar el menú -->
+        <div id="info-back-quick" class="menu-section" style="margin-top: 10px; border-bottom: 0; padding-bottom: 0; display:none;">
+            <button id="btn-info-back-quick" class="btn-ctrl" style="width: 100%; margin-top: 0;">◀ VOLVER</button>
+        </div>
+
+    </div>
+
+    <!-- Botón de volver móvil (fuera del menú) -->
+    <div id="info-back-quick-mobile" class="info-back-mobile" style="display: none;">
+        <button id="btn-info-back-quick-mobile" class="btn-back-mobile">◀ VOLVER</button>
+    </div>
+
+
+    <div id="info-panel">
+        <h2 id="planeta-nombre">Nombre</h2>
+        <p id="planeta-descripcion">Descripción...</p>
+        <ul class="stats">
+            <li><strong>Distancia:</strong> <span id="planeta-distancia">0</span></li>
+            <li><strong>Velocidad:</strong> <span id="planeta-velocidad">0</span></li>
+        </ul>
+    </div>
+
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.156.1/build/three.module.js",
+            "three/examples/jsm/controls/OrbitControls": "https://unpkg.com/three@0.156.1/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>

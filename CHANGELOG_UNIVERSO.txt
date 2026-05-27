@@ -1,0 +1,2 @@
+- 2026-05-12: Botón "VER VISIÓN NORMAL" para restaurar cámara/target inicial y dejar de seguir la selección.
+
